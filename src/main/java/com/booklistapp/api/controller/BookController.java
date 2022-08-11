@@ -23,17 +23,17 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks(){
+    public List<Book> getAllBooks() {
         return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
-    public Optional<Book> getBook(@PathVariable int id){
+    public Optional<Book> getBook(@PathVariable int id) {
         return bookService.getBookById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable int id, @Valid @RequestBody Book incomingBookUpdateData){
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @Valid @RequestBody Book incomingBookUpdateData) {
         return bookService.updateBook(id, incomingBookUpdateData);
     }
 }

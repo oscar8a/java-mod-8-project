@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -20,7 +19,7 @@ public class BookService {
         return bookRepository.save(incomingBookData);
     }
 
-    public ResponseEntity<Book> updateBook(int id, Book incomingBookData){
+    public ResponseEntity<Book> updateBook(int id, Book incomingBookData) {
         Book updateBook = bookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
         updateBook.setTitle(incomingBookData.getTitle());
@@ -30,13 +29,11 @@ public class BookService {
         return new ResponseEntity<>(updateBook, HttpStatus.OK);
     }
 
-    public List<Book> getAllBooks(){
-        List<Book> bookSet = new ArrayList<>();
-        bookSet = bookRepository.findAll();
-        return bookSet;
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
-    public Optional<Book> getBookById(int id){
+    public Optional<Book> getBookById(int id) {
         return bookRepository.findById(id);
     }
 }
