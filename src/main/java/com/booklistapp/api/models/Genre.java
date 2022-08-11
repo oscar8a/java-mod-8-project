@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,4 +19,7 @@ public class Genre {
 
     @NotBlank(message = "Genre name may not be empty!")
     private String name;
+
+    @ManyToMany(mappedBy = "genreSet")
+    private List<Book> bookList = new ArrayList<>();
 }

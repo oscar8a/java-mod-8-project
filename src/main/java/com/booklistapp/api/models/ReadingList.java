@@ -3,11 +3,10 @@ package com.booklistapp.api.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,4 +18,15 @@ public class ReadingList {
 
     @NotBlank(message = "Book List Name may not be empty!")
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "reading_list_books",
+            joinColumns = @JoinColumn(name = "reading_list_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> bookSet = new HashSet<>();
 }
