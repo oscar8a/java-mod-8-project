@@ -3,7 +3,10 @@ package com.booklistapp.api.service;
 import com.booklistapp.api.models.Book;
 import com.booklistapp.api.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +18,16 @@ public class BookService {
 
     public Book createBook(Book incomingBookData) {
         return bookRepository.save(incomingBookData);
+    }
+
+    public ResponseEntity<Book> updateBook(int id, Book incomingBookData){
+        Book updateBook = bookRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+
+        updateBook.setTitle(incomingBookData.getTitle());
+        updateBook.setPages(incomingBookData.getPages());
+
+        bookRepository.save(updateBook);
+        return new ResponseEntity<>(updateBook, HttpStatus.OK);
     }
 
     public List<Book> getAllBooks(){

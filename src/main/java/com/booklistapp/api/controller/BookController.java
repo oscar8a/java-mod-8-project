@@ -3,6 +3,7 @@ package com.booklistapp.api.controller;
 import com.booklistapp.api.models.Book;
 import com.booklistapp.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,5 +30,10 @@ public class BookController {
     @GetMapping("/{id}")
     public Optional<Book> getBook(@PathVariable int id){
         return bookService.getBookById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @Valid @RequestBody Book incomingBookUpdateData){
+        return bookService.updateBook(id, incomingBookUpdateData);
     }
 }
