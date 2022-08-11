@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.booklistapp.api.service;
 
 import com.booklistapp.api.models.Book;
@@ -11,10 +10,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Book createBook(Book incomingBookData){
+    public Book createBook(Book incomingBookData) {
         return bookRepository.save(incomingBookData);
     }
-=======
-package com.booklistapp.api.service;public class BookService {
->>>>>>> seed-data
 }

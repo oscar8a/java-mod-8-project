@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.booklistapp.api.controller;
 
 import com.booklistapp.api.models.Book;
@@ -18,10 +17,7 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping
-    public Book createBook(@Valid @RequestBody Book incomingBookData){
+    public Book createBook(@Valid @RequestBody Book incomingBookData) {
         return bookService.createBook(incomingBookData);
     }
-=======
-package com.booklistapp.api.controller;public class BookController {
->>>>>>> seed-data
 }
