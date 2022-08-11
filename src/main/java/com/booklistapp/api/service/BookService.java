@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.booklistapp.api.service;
 
 import com.booklistapp.api.models.Book;
@@ -13,4 +14,7 @@ public class BookService {
     public Book createBook(Book incomingBookData){
         return bookRepository.save(incomingBookData);
     }
+=======
+package com.booklistapp.api.service;public class BookService {
+>>>>>>> seed-data
 }
