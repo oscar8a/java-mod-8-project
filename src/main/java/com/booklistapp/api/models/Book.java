@@ -6,10 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -33,7 +30,15 @@ public class Book {
 
     @ManyToMany
     @JoinTable(
-            name = "BOOK_GENRES",
+            name = "BOOKS_READING_LISTS",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "reading_list_id")
+    )
+    private List<ReadingList> readingListsList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "BOOKS_GENRES",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )

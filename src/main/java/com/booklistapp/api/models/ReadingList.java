@@ -24,7 +24,7 @@ public class ReadingList {
 
     @ManyToMany
     @JoinTable(
-            name = "reading_list_books",
+            name = "READING_LISTS_BOOKS",
             joinColumns = @JoinColumn(name = "reading_list_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id")
     )
