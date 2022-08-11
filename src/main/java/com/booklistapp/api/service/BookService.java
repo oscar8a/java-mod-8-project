@@ -5,7 +5,8 @@ import com.booklistapp.api.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -14,6 +15,12 @@ public class BookService {
 
     public Book createBook(Book incomingBookData) {
         return bookRepository.save(incomingBookData);
+    }
+
+    public List<Book> getAllBooks(){
+        List<Book> bookSet = new ArrayList<>();
+        bookSet = bookRepository.findAll();
+        return bookSet;
     }
 
     public Optional<Book> getBookById(int id){
