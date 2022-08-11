@@ -5,6 +5,8 @@ import com.booklistapp.api.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BookService {
     @Autowired
@@ -12,5 +14,9 @@ public class BookService {
 
     public Book createBook(Book incomingBookData) {
         return bookRepository.save(incomingBookData);
+    }
+
+    public Optional<Book> getBookById(int id){
+        return bookRepository.findById(id);
     }
 }

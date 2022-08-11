@@ -3,12 +3,10 @@ package com.booklistapp.api.controller;
 import com.booklistapp.api.models.Book;
 import com.booklistapp.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -19,5 +17,10 @@ public class BookController {
     @PostMapping
     public Book createBook(@Valid @RequestBody Book incomingBookData) {
         return bookService.createBook(incomingBookData);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Book> getBook(@PathVariable int id){
+        return bookService.getBookById(id);
     }
 }
