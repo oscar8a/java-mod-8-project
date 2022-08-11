@@ -1,6 +1,8 @@
 package com.booklistapp.api;
 
+import com.booklistapp.api.models.Book;
 import com.booklistapp.api.models.User;
+import com.booklistapp.api.repository.BookRepository;
 import com.booklistapp.api.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,13 @@ public class ApiApplication {
 		@Autowired
 		UserRepository userRepository;
 
+		@Autowired
+		BookRepository bookRepository;
+
 		@Override
 		public void run(String... args) throws Exception {
 			loadUserData();
+			loadBookData();
 		}
 
 		private void loadUserData() {
@@ -40,7 +46,13 @@ public class ApiApplication {
 		}
 
 		private void loadBookData() {
-
+			Faker faker = new Faker();
+			IntStream.range(0, 10).forEach((i)-> {
+				Book newBook = new Book();
+				newBook.setTitle(faker.name().title());
+				newBook.setPages(faker.number().numberBetween(1, 1000));
+				bookRepository.save(newBook);
+			});
 		}
 
 		private void loadAuthorData() {
