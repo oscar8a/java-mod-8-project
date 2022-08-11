@@ -36,4 +36,10 @@ public class BookService {
     public Optional<Book> getBookById(int id) {
         return bookRepository.findById(id);
     }
+
+    public ResponseEntity<String> deleteBookById(int id) {
+        if (!bookRepository.existsById(id)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        bookRepository.deleteById(id);
+        return new ResponseEntity<>("Book has been deleted...", HttpStatus.OK);
+    }
 }
