@@ -25,16 +25,16 @@ public class Book {
 
     private Date published;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Author author;
 
-    @ManyToMany
-    @JoinTable(
-            name = "BOOKS_READING_LISTS",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "reading_list_id")
-    )
-    private List<ReadingList> readingListsList = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "BOOKS_READING_LISTS",
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "reading_list_id")
+//    )
+//    private List<ReadingList> readingListsList = new ArrayList<>();
 
 //    @ManyToMany
 //    @JoinTable(

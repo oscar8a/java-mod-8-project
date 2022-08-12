@@ -23,7 +23,7 @@ public class User {
     @NotBlank(message = "Password may not be blank!")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private List<ReadingList> readingList = new ArrayList<>();
 }

@@ -1,13 +1,7 @@
 package com.booklistapp.api;
 
-import com.booklistapp.api.models.Author;
-import com.booklistapp.api.models.Book;
-import com.booklistapp.api.models.Genre;
-import com.booklistapp.api.models.User;
-import com.booklistapp.api.repository.AuthorRepository;
-import com.booklistapp.api.repository.BookRepository;
-import com.booklistapp.api.repository.GenreRepository;
-import com.booklistapp.api.repository.UserRepository;
+import com.booklistapp.api.models.*;
+import com.booklistapp.api.repository.*;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -40,7 +34,11 @@ public class ApiApplication {
 		@Autowired
 		private GenreRepository genreRepository;
 
+		@Autowired
+		ReadingListRepository readingListRepository;
+
 		private final Faker faker = new Faker();
+		private final Random rand = new Random();
 
 		@Override
 		public void run(String... args) throws Exception {
@@ -48,11 +46,15 @@ public class ApiApplication {
 			loadGenreData();
 			loadBookData();
 			loadAuthorData();
+
+			associateBookAuthor();
 			associateBookGenre();
+
+			createReadingLists();
 		}
 
 		private void loadUserData() {
-			IntStream.range(0, 10).forEach((i) -> {
+			IntStream.rangeClosed(1, 10).forEach((i) -> {
 				User newUser = new User();
 				newUser.setUsername(faker.name().username());
 				newUser.setPassword(faker.pokemon().name());
@@ -88,7 +90,6 @@ public class ApiApplication {
 
 		private void associateBookGenre() {
 			int genreListSize = genreRepository.findAll().size();
-			Random rand = new Random();
 
 			IntStream.rangeClosed(1, 10).forEach((i) -> {
 				Genre genre = genreRepository.findById(rand.nextInt(genreListSize) + 1).orElseThrow();
@@ -98,8 +99,32 @@ public class ApiApplication {
 			});
 		}
 
-//		private void associateUserToReadingList() {
-//
-//		}
+		private void associateBookAuthor() {
+			int authorListSize = authorRepository.findAll().size();
+
+			IntStream.rangeClosed(1, 10).forEach((i) -> {
+				Author author = authorRepository.findById(rand.nextInt(authorListSize) + 1).orElseThrow();
+				Book book = bookRepository.findById(i).orElseThrow();
+				book.setAuthor(author);
+				bookRepository.save(book);
+			});
+		}
+
+		private void createReadingLists() {
+			List<User> userList = userRepository.findAll();
+			List<Book> bookList = bookRepository.findAll();
+
+//			rand.nextInt(authorListSize) + 1
+			IntStream.rangeClosed(1, 3).forEach((i) -> {
+				ReadingList newList = new ReadingList();
+				newList.setName(faker.cat().name());
+				newList.getBookSet().add(bookList.get(rand.nextInt(bookList.size()) + 1));
+				readingListRepository.save(newList);
+
+				User user = userList.get(rand.nextInt(bookList.size()) + 1);
+				user.getReadingList().add(newList);
+				userRepository.save(user);
+			});
+		}
 	}
 }
