@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReadingListService {
     @Autowired
-    ReadingListRepository readingListRepository;
+    private ReadingListRepository readingListRepository;
 
     public ReadingList createUserReadingList(ReadingList readingListData) {
         return readingListRepository.save(readingListData);

@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -17,7 +19,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    ReadingListRepository readingListRepository;
+    private ReadingListRepository readingListRepository;
 
     public User createUser(User incomingUserData){
         return userRepository.save(incomingUserData);
@@ -29,10 +31,14 @@ public class UserService {
 
     public ReadingList createUserReadingList(int userID, ReadingList readingListData) {
         ReadingList newRL = readingListRepository.save(readingListData);
-        User userEntity = userRepository.findById(userID).get();
+        User userEntity = userRepository.findById(userID).orElseThrow();
         userEntity.getReadingList().add(readingListData);
         userRepository.save(userEntity);
         return newRL;
+    }
+
+    public List<ReadingList> getUserReadingList(int userID) {
+        return userRepository.findById(userID).orElseThrow().getReadingList();
     }
 
     public ResponseEntity<String> deleteUserById(int id){

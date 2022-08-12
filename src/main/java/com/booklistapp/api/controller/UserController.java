@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,6 +37,11 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    @GetMapping("/{id}/reading_lists")
+    public List<ReadingList> getUserReadingList(@PathVariable int id){
+//        incomingData(userService.getUserById(id).orElseThrow());
+        return userService.getUserReadingList(id);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable int id){
         return userService.deleteUserById(id);
