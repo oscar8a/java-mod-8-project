@@ -36,11 +36,11 @@ public class Book {
     )
     private List<ReadingList> readingListsList = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "BOOKS_GENRES",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
-    )
-    private Set<Genre> genreSet = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "BOOKS_GENRES",
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "genre_id")
+//    )
+//    private Set<Genre> genreSet = new HashSet<>();
 }
