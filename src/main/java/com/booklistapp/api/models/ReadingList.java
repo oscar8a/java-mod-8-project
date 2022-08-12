@@ -20,8 +20,8 @@ public class ReadingList {
     @NotBlank(message = "Book List Name may not be empty!")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private User user;
 
     @ManyToMany
     @JoinTable(

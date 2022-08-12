@@ -97,5 +97,9 @@ public class ApiApplication {
 				genreRepository.save(genre);
 			});
 		}
+
+//		private void associateUserToReadingList() {
+//
+//		}
 	}
 }
