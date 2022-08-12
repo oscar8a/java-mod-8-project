@@ -1,5 +1,7 @@
 package com.booklistapp.api.controller;
 
+import com.booklistapp.api.dto.GenreBooksDTO;
+import com.booklistapp.api.dto.GenreForGetAllGenresDTO;
 import com.booklistapp.api.models.Book;
 import com.booklistapp.api.models.Genre;
 import com.booklistapp.api.service.GenreService;
@@ -18,12 +20,12 @@ public class GenreController {
     private GenreService genreService;
 
     @GetMapping("/{id}/books")
-    public List<Book> getGenreBooks(@PathVariable int id) {
+    public GenreBooksDTO getGenreBooks(@PathVariable int id) {
         return genreService.getGenreBooks(id);
     }
 
     @GetMapping
-    public List<Genre> getAllGenres() {
+    public List<GenreForGetAllGenresDTO> getAllGenres() {
         return genreService.getAllGenres();
     }
 }

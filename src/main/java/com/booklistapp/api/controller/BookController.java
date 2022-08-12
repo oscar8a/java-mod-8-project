@@ -1,5 +1,7 @@
 package com.booklistapp.api.controller;
 
+import com.booklistapp.api.dto.BookForGetAllBooksDTO;
+import com.booklistapp.api.dto.BookForGetSingleBookDTO;
 import com.booklistapp.api.models.Book;
 import com.booklistapp.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/books")
@@ -23,12 +24,12 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getAllBooks() {
+    public List<BookForGetAllBooksDTO> getAllBooks() {
         return bookService.getAllBooks();
     }
 
     @GetMapping("/{id}")
-    public Optional<Book> getBook(@PathVariable int id) {
+    public BookForGetSingleBookDTO getBook(@PathVariable int id) {
         return bookService.getBookById(id);
     }
 

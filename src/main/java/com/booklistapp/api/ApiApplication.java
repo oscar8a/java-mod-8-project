@@ -3,13 +3,17 @@ package com.booklistapp.api;
 import com.booklistapp.api.models.*;
 import com.booklistapp.api.repository.*;
 import com.github.javafaker.Faker;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
@@ -17,6 +21,11 @@ public class ApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 
 	@Component
@@ -64,11 +73,12 @@ public class ApiApplication {
 
 		private void loadBookData() {
 			IntStream.rangeClosed(1, 10).forEach((i) -> {
+				Date date = faker.date().past(36525, TimeUnit.DAYS);
 				Book newBook = new Book();
 				com.github.javafaker.Book fakeBook = faker.book();
 				newBook.setTitle(fakeBook.title());
 				newBook.setPages(faker.number().numberBetween(1, 1000));
-				newBook.setPublished(faker.date().between(new Date(1990, Calendar.JANUARY, 1), new Date(2020, Calendar.MAY, 15)));
+				newBook.setPublished(date);
 				bookRepository.save(newBook);
 			});
 		}
@@ -114,14 +124,13 @@ public class ApiApplication {
 			List<User> userList = userRepository.findAll();
 			List<Book> bookList = bookRepository.findAll();
 
-//			rand.nextInt(authorListSize) + 1
 			IntStream.rangeClosed(1, 3).forEach((i) -> {
 				ReadingList newList = new ReadingList();
 				newList.setName(faker.cat().name());
-				newList.getBookSet().add(bookList.get(rand.nextInt(bookList.size()) + 1));
+				newList.getBookSet().add(bookList.get(rand.nextInt((bookList.size()))));
 				readingListRepository.save(newList);
 
-				User user = userList.get(rand.nextInt(bookList.size()) + 1);
+				User user = userList.get(rand.nextInt((bookList.size())));
 				user.getReadingList().add(newList);
 				userRepository.save(user);
 			});
