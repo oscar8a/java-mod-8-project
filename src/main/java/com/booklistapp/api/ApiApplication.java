@@ -2,9 +2,11 @@ package com.booklistapp.api;
 
 import com.booklistapp.api.models.Author;
 import com.booklistapp.api.models.Book;
+import com.booklistapp.api.models.Genre;
 import com.booklistapp.api.models.User;
 import com.booklistapp.api.repository.AuthorRepository;
 import com.booklistapp.api.repository.BookRepository;
+import com.booklistapp.api.repository.GenreRepository;
 import com.booklistapp.api.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @SpringBootApplication
@@ -25,24 +26,29 @@ public class ApiApplication {
 	}
 
 	@Component
-	public class DataLoader implements CommandLineRunner {
+	public static class DataLoader implements CommandLineRunner {
 
 		@Autowired
-		UserRepository userRepository;
+		private UserRepository userRepository;
 
 		@Autowired
-		BookRepository bookRepository;
+		private BookRepository bookRepository;
 
 		@Autowired
-		AuthorRepository authorRepository;
+		private AuthorRepository authorRepository;
 
-		Faker faker = new Faker();
+		@Autowired
+		private GenreRepository genreRepository;
+
+		private final Faker faker = new Faker();
 
 		@Override
 		public void run(String... args) throws Exception {
 			loadUserData();
+			loadGenreData();
 			loadBookData();
 			loadAuthorData();
+			associateBookGenre();
 		}
 
 		private void loadUserData() {
@@ -55,7 +61,7 @@ public class ApiApplication {
 		}
 
 		private void loadBookData() {
-			IntStream.range(0, 10).forEach((i) -> {
+			IntStream.rangeClosed(1, 10).forEach((i) -> {
 				Book newBook = new Book();
 				com.github.javafaker.Book fakeBook = faker.book();
 				newBook.setTitle(fakeBook.title());
@@ -69,13 +75,27 @@ public class ApiApplication {
 			IntStream.rangeClosed(1, 10).forEach((i) -> {
 				Author newAuthor = new Author();
 				newAuthor.setName(faker.name().fullName());
-//				newAuthor.addBook(bookRepository.findById(i).orElse(null));
 				authorRepository.save(newAuthor);
 			});
 		}
 
 		private void loadGenreData() {
+			List<String> genreList = Arrays.asList("Education", "Professional", "Research");
+			genreList.forEach(genre -> {
+				genreRepository.save(new Genre(genre));
+			});
+		}
 
+		private void associateBookGenre() {
+			int genreListSize = genreRepository.findAll().size();
+			Random rand = new Random();
+
+			IntStream.rangeClosed(1, 10).forEach((i) -> {
+				Genre genre = genreRepository.findById(rand.nextInt(genreListSize) + 1).orElseThrow();
+				Book book = bookRepository.findById(i).orElseThrow();
+				genre.getBookList().add(book);
+				genreRepository.save(genre);
+			});
 		}
 	}
 }
